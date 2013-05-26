@@ -1,0 +1,29 @@
+#!/bin/bash
+
+LDAP_HOST=127.0.0.1
+# e.g "dc=mydomain,dc=com"
+LDAP_BASE_DN=""
+# e.g. mydomain.com
+LDAP_O=""
+# e.g. mydomain
+LDAP_DC=""
+
+LDAP_PEOPLE_NAME="People"
+LDAP_GROUP_NAME="Group"
+
+LDAP_GROUP_DN="ou=$LDAP_GROUP_NAME,$LDAP_BASE_DN"
+LDAP_PEOPLE_DN="ou=$LDAP_PEOPLE_NAME,$LDAP_BASE_DN"
+
+ldap_user_dn() {
+  uid=$1
+  echo -n "uid=$uid,$LDAP_PEOPLE_DN"
+}
+
+ldap_group_dn() {
+  group=$1
+  echo -n "cn=$group,$LDAP_GROUP_DN"
+}
+
+LDAP_ROOT_DN=$(ldap_user_dn admin)
+# generate by slappasswd
+ROOT_PW=""
